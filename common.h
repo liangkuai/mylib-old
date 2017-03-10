@@ -14,7 +14,8 @@
 #define _COMMON_H_LIANGKUAI
 
 /*
- * bool
+ * 自定义表示布尔类型
+ * C99前不支持布尔类型
  */
 #ifndef TRUE
 #define TRUE 1
@@ -25,10 +26,10 @@
 #endif
 
 /*
- * Excute status
+ * 程序或函数执行状态
  */
-#define EXCUTE_SUCCESS 0
-#define EXCUTE_FAILURE -1
+#define EXECUTE_SUCCESS 0
+#define EXECUTE_FAILURE -1
 
 
 #endif // _COMMON_H_LIANGKUAI
