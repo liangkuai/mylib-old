@@ -8,7 +8,7 @@ void output(SqList *list)
     printf("list size: %u\n", list->size);
     printf("list elem_num: %u\n", list->elem_num);
 
-    if (list->first_elem_addr == NULL)
+    if (list->first_elem == NULL)
     {
         printf("list is NULL");
     }
@@ -16,7 +16,7 @@ void output(SqList *list)
     {
         for (i = 0; i < list->elem_num; ++i)
         {
-            printf("list %d elem: %d\n", i, *(list->first_elem_addr + i));
+            printf("list %d elem: %d\n", i, *(list->first_elem + i));
         }
     }
 }
@@ -28,11 +28,14 @@ int main()
 
     res = InitList(&list);
     printf("init res = %d\n", res);
-    output(&list);
+    print(&list);
+    //output(&list);
 
     res = DestoryList(&list);
     printf("destory list: %d\n", res);
-    output(&list);
+    print(&list);
+    //output(&list);
 
     return 0;
+
 }

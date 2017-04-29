@@ -26,10 +26,24 @@ typedef int ElemType;
 
 typedef struct
 {
-    ElemType *first_elem_addr;
+    ElemType *first_elem;
     unsigned int elem_num;
     unsigned int size;
 } SqList;
+
+
+/*
+ * 销毁顺序表。
+ * 仅回收所有元素内存空间
+ *
+ * 参数
+ *  @ list 顺序表结构体地址
+ *
+ * 返回值
+ *  @  0 执行成功
+ *  @ -1 执行失败
+ */
+int DestoryList(SqList *list);
 
 
 /*
@@ -49,8 +63,8 @@ int InitList(SqList *list);
  * 为顺序表增加存储空间
  *
  * 参数
- *  @ list 顺序表结构体地址
- *  @ int  增加空间大小;如果为NULL，表示增加默认长度LIST_INCREASE_SIZE
+ *  @ list 顺序表首地址
+ *  @ int  增加空间大小;如果为NULL，增加内存空间为原长度1/2
  *
  * 返回值
  *  @  0 执行成功
@@ -72,10 +86,10 @@ int AddListSize(SqList *list, unsigned int increase_size);
 int ListEmpty(const SqList list);
 
 /*
- * 清空顺序表元素
+ * 清空顺序表
  *
  * 参数
- *  @ list 顺序表结构体地址
+ *  @ list 顺序表首地址
  *
  * 返回值
  *  @  0 执行成功
@@ -83,17 +97,6 @@ int ListEmpty(const SqList list);
  */
 int ClearList(SqList *list);
 
-/*
- * 销毁顺序表
- *
- * 参数
- *  @ list 顺序表结构体地址
- *
- * 返回值
- *  @  0 执行成功
- *  @ -1 执行失败
- */
-int DestoryList(SqList *list);
 
 /*
  * 获取顺序表元素个数
@@ -158,3 +161,6 @@ int DeleteElemByIndex(SqList *list, ElemType *elem);
 
 
 #endif // _SQLIST_H
+
+
+void print(const SqList *list);

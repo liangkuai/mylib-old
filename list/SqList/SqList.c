@@ -3,19 +3,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int InitList(SqList *list)
+
+int DestoryList(SqList *list)
 {
-    // 防止顺序表原存储空间未被释放，造成内存泄露
-    if (list->first_elem_addr != NULL)
+    if (list != NULL)
     {
-        free(list->first_elem_addr);
-        list->first_elem_addr = NULL;
+        if (list->first_elem != NULL)
+       {   
+           free(list->first_elem);
+           list->first_elem = NULL;
+       }
+       list->elem_num = 0;
+       list->size = 0;
+    }
+    else
+    {
+        // 顺序表结构体未分配内存空间
+        return EXECUTE_FAILURE;
     }
 
-    list->first_elem_addr = (ElemType *)calloc(
-        LIST_INIT_SIZE, sizeof(ElemType));
+    return EXECUTE_SUCCESS;
+}
 
-    if (list->first_elem_addr == NULL)
+
+int InitList(SqList *list)
+{
+    if (list == NULL)
+    {
+        // 顺序表结构体未分配内存空间
+        return EXECUTE_FAILURE;
+    }
+
+    list->first_elem = (ElemType *)calloc(LIST_INIT_SIZE, sizeof(ElemType));
+    if (list->first_elem == NULL)
     {
         // 内存分配失败
         return EXECUTE_FAILURE;
@@ -27,42 +47,46 @@ int InitList(SqList *list)
     return EXECUTE_SUCCESS;
 }
 
+/*
+int checkInit(SqList *list)
+{
+    if (list
+        && list->size >= LIST_INIT_SIZE
+        && list->elem_num >= 0)
+        return TRUE;
+    else
+        return FALSE;
+}
+
 
 int AddListSize(SqList *list, unsigned int increase_size)
 {
     // 新定义一个指针指向新地址，防止原内存空间泄露
-    ElemType *new_list_addr = NULL;
+    ElemType *new_list = NULL;
 
     if (increase_size == 0)
     {
-        new_list_addr = (ElemType *)realloc(
-            list->first_elem_addr, (list->size + LIST_INCREASE_SIZE));
-
-        list->first_elem_addr = new_list_addr;
-
-        if (list->first_elem_addr == NULL)
-        {
-            // 内存分配失败
-            return EXECUTE_FAILURE;
-        }
+        // 不使用 LIST_INCREASE_SIZE
+        new_list = (ElemType *)realloc(
+            list->first_elem_addr, (list->size + (list_size >> 2)));
 
         list->size = list->size + LIST_INCREASE_SIZE;
     }
     else
     {
-        new_list_addr = (ElemType *)realloc(
+        new_list = (ElemType *)realloc(
             list->first_elem_addr, (list->size + increase_size));
-
-        list->first_elem_addr = new_list_addr;
-
-        if (list->first_elem_addr == NULL)
-        {
-            // 内存分配失败
-            return EXECUTE_FAILURE;
-        }
 
         list->size = list->size + increase_size;
     }
+
+    if (new_list == NULL)
+    {
+        // 内存分配失败
+        return EXECUTE_FAILURE;
+    }
+
+    list-first_elem_addr = new_list;
 
     return EXECUTE_SUCCESS;
 }
@@ -79,9 +103,9 @@ int ListEmpty(const SqList list)
 
 int ClearList(SqList *list)
 {
-    if (list->first_elem_addr == NULL)
+    if (ListEmpty(*list))
     {
-        // 顺序表尚未分配内存空间
+        // 顺序表为空
         return EXECUTE_FAILURE;
     }
 
@@ -99,21 +123,6 @@ int ClearList(SqList *list)
             return EXECUTE_FAILURE;
         }
     }
-    return EXECUTE_SUCCESS;
-}
-
-
-int DestoryList(SqList *list)
-{
-    if (list->first_elem_addr != NULL)
-    {
-        free(list->first_elem_addr);
-        list->first_elem_addr = NULL;
-
-        list->elem_num = 0;
-        list->size = 0;
-    }
-
     return EXECUTE_SUCCESS;
 }
 
@@ -153,7 +162,7 @@ int AddElem(SqList *list, ElemType *elem)
     return EXECUTE_SUCCESS;
 }
 
-/*
+*
 int AddElemByIndex(SqList *list, unsigned int i, ElemType *elem)
 {
     int j;
@@ -182,3 +191,22 @@ int AddElemByIndex(SqList *list, unsigned int i, ElemType *elem)
 
     return EXECUTE_SUCCESS;
 }*/
+
+
+void print(const SqList *list)
+{
+    int i;
+
+    if (list != NULL)
+    {
+        printf("********************\n");
+        printf("长度: %u\n", list->size);
+        printf("内容: %u\n", list->elem_num);
+        if (list->first_elem != NULL)
+        {
+            for (i = 0; i < list->elem_num; ++i)
+                printf("%d\n", *(list->first_elem + i));
+        }
+        printf("********************\n");
+    }
+}
