@@ -31,7 +31,7 @@ int main()
     print(&list);
     //output(&list);
 
-    res = DestoryList(&list);
+    res = DestroyList(&list);
     printf("destory list: %d\n", res);
     print(&list);
     //output(&list);

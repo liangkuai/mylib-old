@@ -2,38 +2,11 @@
 #include "SqList.h"
 #include <stdio.h>
 #include <stdlib.h>
-
-
-int DestoryList(SqList *list)
-{
-    if (list != NULL)
-    {
-        if (list->first_elem != NULL)
-       {   
-           free(list->first_elem);
-           list->first_elem = NULL;
-       }
-       list->elem_num = 0;
-       list->size = 0;
-    }
-    else
-    {
-        // 顺序表结构体未分配内存空间
-        return EXECUTE_FAILURE;
-    }
-
-    return EXECUTE_SUCCESS;
-}
+#include <string.h>
 
 
 int InitList(SqList *list)
 {
-    if (list == NULL)
-    {
-        // 顺序表结构体未分配内存空间
-        return EXECUTE_FAILURE;
-    }
-
     list->first_elem = (ElemType *)calloc(LIST_INIT_SIZE, sizeof(ElemType));
     if (list->first_elem == NULL)
     {
@@ -46,6 +19,73 @@ int InitList(SqList *list)
 
     return EXECUTE_SUCCESS;
 }
+
+
+int DestroyList(SqList *list)
+{
+    free(list->first_elem);
+    list->first_elem = NULL;
+
+    list->elem_num = 0;
+    list->size = 0;
+
+    return EXECUTE_SUCCESS;
+}
+
+
+int ListEmpty(const SqList list)
+{
+    if (list.elem_num == 0)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+
+int ClearList(SqList *list)
+{
+    memset(list->first_elem, 0, list->elem_num);
+    list->elem_num = 0;
+    return EXECUTE_SUCCESS;
+}
+
+
+int AddListSize(SqList *list, unsigned int add_size)
+{
+    // 新定义一个指针指向新地址，防止原内存空间泄露
+    ElemType *new_list = NULL;
+
+    if (add_size == 0)
+    {
+        // 不使用 LIST_INCREASE_SIZE
+        new_list = (ElemType *)realloc(list->first_elem,
+            (list->size + (list->size >> 1)) * sizeof(ElemType));
+        if (new_list == NULL)
+        {
+            // 内存分配失败
+            return EXECUTE_FAILURE;
+        }
+
+        list->size = list->size + (list->size >> 1);
+    }
+    else
+    {
+        new_list = (ElemType *)realloc(list->first_elem,
+            (list->size + add_size) * sizeof(ElemType));
+        if (new_list == NULL)
+        {
+            // 内存分配失败
+            return EXECUTE_FAILURE;
+        }
+
+        list->size = list->size + add_size;
+    }
+
+    list->first_elem = new_list;
+
+    return EXECUTE_SUCCESS;
+}
+
 
 /*
 int checkInit(SqList *list)
@@ -197,16 +237,10 @@ void print(const SqList *list)
 {
     int i;
 
-    if (list != NULL)
-    {
-        printf("********************\n");
-        printf("长度: %u\n", list->size);
-        printf("内容: %u\n", list->elem_num);
-        if (list->first_elem != NULL)
-        {
-            for (i = 0; i < list->elem_num; ++i)
-                printf("%d\n", *(list->first_elem + i));
-        }
-        printf("********************\n");
-    }
+    printf("********************\n");
+    printf("长度: %u\n", list->size);
+    printf("内容: %u\n", list->elem_num);
+    for (i = 0; i < list->elem_num; ++i)
+        printf("%d\n", *(list->first_elem + i));
+    printf("********************\n");
 }

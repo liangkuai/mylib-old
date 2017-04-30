@@ -3,7 +3,7 @@
  *
  * 顺序表，动态数组
  * 
- * Create by liangkuai
+ * Created by liangkuai
  *
  * Date: 2017/03/07
  */
@@ -33,20 +33,6 @@ typedef struct
 
 
 /*
- * 销毁顺序表。
- * 仅回收所有元素内存空间
- *
- * 参数
- *  @ list 顺序表结构体地址
- *
- * 返回值
- *  @  0 执行成功
- *  @ -1 执行失败
- */
-int DestoryList(SqList *list);
-
-
-/*
  * 初始化顺序表
  *
  * 参数
@@ -57,6 +43,20 @@ int DestoryList(SqList *list);
  *  @ -1 执行失败
  */
 int InitList(SqList *list);
+
+
+/*
+ * 销毁顺序表。
+ * 仅回收所有元素内存空间
+ *
+ * 参数
+ *  @ list 顺序表结构体地址
+ *
+ * 返回值
+ *  @  0 执行成功
+ *  @ -1 执行失败
+ */
+int DestroyList(SqList *list);
 
 
 /*
@@ -159,8 +159,6 @@ int AddElemByIndex(SqList *list, unsigned int i, ElemType *elem);
 
 int DeleteElemByIndex(SqList *list, ElemType *elem);
 
+void print(const SqList *list);
 
 #endif // _SQLIST_H
-
-
-void print(const SqList *list);
