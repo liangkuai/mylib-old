@@ -10,8 +10,8 @@
 
 
 
-#ifndef _COMMON_H_LIANGKUAI
-#define _COMMON_H_LIANGKUAI
+#ifndef _COMMON_H_LIANGKUAI_
+#define _COMMON_H_LIANGKUAI_
 
 /*
  * 自定义表示布尔类型
@@ -32,4 +32,4 @@
 #define EXECUTE_FAILURE -1
 
 
-#endif // _COMMON_H_LIANGKUAI
+#endif // _COMMON_H_LIANGKUAI_
