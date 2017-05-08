@@ -1,7 +1,8 @@
 #include <stdio.h>
-#inculde "HuffmanTree.h"
+#include "HuffmanTree.h"
+#include "../../heap/BinaryHeap/BinaryHeap.h"
 
-int main()
+void createHuffmanTree(HuffmanTree *huffman_tree, Heap heap)
 {
-    return 0;
+    
 }

@@ -1,30 +1,32 @@
 #include <stdio.h>
 #include "HeapSort.h"
-#include "../../heap/BinaryHeap/BinaryHeap.h"
+//#include "../../heap/BinaryHeap/BinaryHeap.h"
+#include "../../common.h"
 
-void MaxHeapSort(Heap heap, unsigned int length)
+void MaxHeapSort(Heap *heap)
 {
     int i;
 
-    for (i = length / 2; i > 0; --i)
-        adjustMaxBinaryHeap(heap, i, length);
+    for (i = heap->length / 2 - 1; i >= 0; --i)
+        adjustMaxBinaryHeap(heap, i, heap->length - 1);
 
-    for (i = length; i > 1; --i)
+    for (i = heap->length - 1; i > 0; --i)
     {
-        swap(*heap, *(heap + i));
-        adjustMaxBinaryHeap(heap, 1, i-1);
+        swap(*heap->head, *(heap->head + i));
+        adjustMaxBinaryHeap(heap, 0, i-1);
     }
 }
 
-void MinHeapSort(Heap heap, unsigned int length)
+void MinHeapSort(Heap *heap)
 {
     int i;
-    for (i = length / 2; i > 0; --i)
-        adjustMinBinaryHeap(heap, i, length);
 
-    for (i = length; i > 1; --i)
+    for (i = heap->length / 2 - 1; i >= 0; --i)
+        adjustMinBinaryHeap(heap, i, heap->length - 1);
+
+    for (i = heap->length - 1; i > 0; --i)
     {
-        swap(*heap, *(heap + i));
-        adjustMinBinaryHeap(heap, 1, i-1);
+        swap(*heap->head, *(heap->head + i));
+        adjustMinBinaryHeap(heap, 0, i-1);
     }
 }

@@ -28,8 +28,14 @@
 /*
  * 程序或函数执行状态
  */
-#define EXECUTE_SUCCESS 0
+#define EXECUTE_SUCCESS 1
 #define EXECUTE_FAILURE -1
 
+/*
+ * 宏，交换两个值
+ */
+#ifndef swap
+#define swap(a,b) (a^=b,b^=a,a^=b)
+#endif
 
 #endif // _COMMON_H_LIANGKUAI_

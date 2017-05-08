@@ -11,13 +11,10 @@
 
 #include "../../heap/BinaryHeap/BinaryHeap.h"
 
-#define swap(a,b) (a^=b,b^=a,a^=b)
+void MaxHeapSort(Heap *heap);
 
 
-void MaxHeapSort(Heap heap, unsigned int length);
-
-
-void MinHeapSort(Heap heap, unsigned int length);
+void MinHeapSort(Heap *heap);
 
 
 #endif  //_HEAPSORT_H_
