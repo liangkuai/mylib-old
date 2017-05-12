@@ -32,6 +32,13 @@
 #define EXECUTE_FAILURE -1
 
 /*
+ * 宏，取数组长度
+ */
+#ifndef LENGTH
+#define LENGTH(a) (sizeof(a)/sizeof(a[0]))
+#endif
+
+/*
  * 宏，交换两个值
  */
 #ifndef swap
