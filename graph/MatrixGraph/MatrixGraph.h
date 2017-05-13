@@ -1,5 +1,5 @@
 /**
- * 图
+ * 图, 邻接矩阵
  *
  * @author liangkuai
  * @data 2017.05.11
@@ -62,6 +62,8 @@ int nextAdjoinVertexIndex(MatrixGraph graph, int vertex_index, int adjoin_vertex
 int DFSTraverse(MatrixGraph *graph);
 
 void DFS(MatrixGraph *graph, int i, int *visited);
+
+void BFS(MatrixGraph *graph);
 
 
 void printMatrixGraph(const MatrixGraph graph);

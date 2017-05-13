@@ -142,7 +142,7 @@ int DFSTraverse(MatrixGraph *graph)
     }
     memset(visited, FALSE, graph->vertex_num);
 
-    printf("***\nDFS: ");
+    printf("\n***DFS: ");
     for (i = 0; i < graph->vertex_num; ++i)
     {
         if (!visited[i])
@@ -166,6 +166,50 @@ void DFS(MatrixGraph *graph, int i, int *visited)
         if (!visited[next])
             DFS(graph, next, visited);
         next = nextAdjoinVertexIndex(*graph, i, next);
+    }
+}
+
+
+void BFS(MatrixGraph *graph)
+{
+    int vertex_indices[MAX_VERTEX_NUM];
+    int now_index, rear_index;
+    int i, j, next;
+
+    int *visited = (int *)malloc((graph->vertex_num+1) * sizeof(int));
+    if (!visited)
+    {
+        // 内存分配失败
+    }
+    memset(visited, FALSE, graph->vertex_num);
+    
+    now_index = rear_index = 0;
+
+    printf("\n***BFS: ");
+    for (i = 0; i < graph->vertex_num; ++i)
+    {
+        if (visited[i])
+            break;
+
+        vertex_indices[rear_index++] = i;
+        *(visited + i) = TRUE;
+        printf("%c ", graph->vertices[i]);
+        while (now_index < rear_index)
+        {
+            j = vertex_indices[now_index++];
+
+            next = firstAdjoinVertexIndex(*graph, j);
+            for (; next < graph->vertex_num;)
+            {
+                if (!visited[next])
+                {
+                    vertex_indices[rear_index++] = next;
+                    *(visited + next) = TRUE;
+                    printf("%c ", graph->vertices[next]);
+                }
+                next = nextAdjoinVertexIndex(*graph, j, next);
+            }
+        }
     }
 }
 

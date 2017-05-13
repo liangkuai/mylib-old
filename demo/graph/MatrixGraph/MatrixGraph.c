@@ -13,6 +13,7 @@ int main()
     res = createTestUDN(&graph1);
     printMatrixGraph(graph1);
     DFSTraverse(&graph1);
+    BFS(&graph1);
 
     //res = createUDG(&graph2);
     //printMatrixGraph(graph2);
