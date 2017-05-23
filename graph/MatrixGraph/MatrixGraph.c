@@ -96,7 +96,7 @@ int createUDG(MatrixGraph *graph)
          * 根据顶点值从顶点数组中获取两个顶点的下标i, j
          * 由于无向图的邻接矩阵是对角矩阵，[i][j]和[j][i]对应边都要置为1
          */
-        printf("构造第%d条边:", k+1);
+        printf("- 构造第%d条边:", k+1);
         scanf("%c %c", &v1, &v2);
         getchar();
         i = getVertexIndex(*graph, v1);

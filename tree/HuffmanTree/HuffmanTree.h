@@ -9,11 +9,12 @@
 #ifndef _HUFFMAN_TREE_H_
 #define _HUFFMAN_TREE_H_
 
-typedef unsigned int weight_type;
+typedef unsigned int WeightType;
 
 typedef struct _HuffmanNode
 {
-    type weight;
+    WeightType weight;
+    
     struct _HuffmanNode *parent;
     struct _HuffmanNode *lchild;
     struct _HuffmanNode *rchild;
@@ -25,4 +26,4 @@ typedef struct _HuffmanTree
     unsigned int leaf_node_num;
 } HuffmanTree;
 
-#endif
+#endif  // _HUFFMAN_TREE_H_

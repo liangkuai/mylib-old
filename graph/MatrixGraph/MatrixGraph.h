@@ -10,8 +10,6 @@
 #define _MATRIX_GRAPH_H_
 
 
-/***** 邻接矩阵 *****/
-
 // 最大顶点数
 #define MAX_VERTEX_NUM 20
 
@@ -67,29 +65,6 @@ void BFS(MatrixGraph *graph);
 
 
 void printMatrixGraph(const MatrixGraph graph);
-
-
-/***** 邻接表 *****/
-
-typedef struct _ArcNode
-{
-    int conn_vertex;
-    struct _ArcNode *next_arc;
-} ArcNode;
-
-typedef struct _VertexList
-{
-    Vertex data;
-    ArcNode *first_arc;
-} VertexList;
-
-typedef struct _ListGraph
-{
-    unsigned int vertex_num;
-    unsigned int arc_num;
-    VertexList vertices;
-    GraphType type;
-} ListGraph;
 
 
 #endif  // _MATRIX_GRAPH_H_

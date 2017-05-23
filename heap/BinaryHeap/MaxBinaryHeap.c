@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "BinaryHeap.h"
 #include "../../common.h"
 
@@ -25,13 +26,24 @@ void adjustMaxBinaryHeap(Heap *heap, unsigned int start, unsigned int end)
 }
 
 
-int createMaxBinaryHeap(Heap *heap)
+int createMaxBinaryHeap(Heap *heap, ElemType *elem_list)
 {
     int i;
+    
+    // 堆初始化大小 100
+    heap->head = (ElemType *)malloc(HEAP_INIT_SIZE * sizeof(ElemType));
+    heap->size = HEAP_INIT_SIZE;
+    
+    for (i = 0; i < heap->length; ++i)
+    {
+        *(heap->head + i) = *(elem_list + i);
+    }
 
     // 树的最后一个非叶节点 length/2-1
     for (i = heap->length / 2 - 1; i >= 0; --i)
+    {
         adjustMaxBinaryHeap(heap, i, heap->length -1);
+    }
 
     return EXECUTE_SUCCESS;
 }
@@ -39,18 +51,97 @@ int createMaxBinaryHeap(Heap *heap)
 
 int heapEmpty(const Heap heap)
 {
-    if (heap.length > 0)
+    if (heap.length <= 0)
         return TRUE;
     else
         return FALSE;
 }
 
 
-int getMaxElem(const Heap *heap, ElemType *max_elem)
+int getTopOfMaxBinaryHeap(const Heap heap, ElemType *max_elem)
 {
-    if (heapEmpty(*heap))
+    if (heapEmpty(heap))
         return EXECUTE_FAILURE;
 
-    max_elem = head->head;
+    *max_elem = *heap.head;
     return EXECUTE_SUCCESS;
+}
+
+
+int removeTopOfMaxBinaryHeap(Heap *heap, ElemType *max_elem)
+{
+    int i;
+
+    *max_elem = *heap->head;
+    *heap->head = *(heap->head + heap->length - 1);
+    *(heap->head + heap->length - 1) = 0;
+    --heap->length;
+
+    for (i = heap->length/2 - 1; i <= 0; --i)
+    {
+        adjustMaxBinaryHeap(heap, i, heap->length-1);
+    }
+
+    return EXECUTE_SUCCESS;
+}
+
+
+int addHeapSize(Heap *heap)
+{
+    ElemType *new_heap = NULL;
+    
+    /*
+     * 扩展堆大小
+     * 原大小 + 50
+     */
+    new_heap = (ElemType *)realloc(heap->head,
+        (heap->size + HEAP_INCREASE_SIZE) * sizeof(ElemType));
+    if (!new_heap)
+    {
+        // 内存分配失败
+        return EXECUTE_FAILURE;
+    }
+    heap->size = heap->size + HEAP_INCREASE_SIZE;
+    heap->head = new_heap;
+
+    return EXECUTE_SUCCESS;
+}
+
+
+int addElemToMaxBinaryHeap(Heap *heap, ElemType new_elem)
+{
+    int i;
+
+    // 堆满
+    if (heap->length >= heap->size)
+    {
+        // 扩展堆大小
+        if (!addHeapSize(heap))
+        {
+            return EXECUTE_FAILURE;
+        }
+    }
+
+    // 添加堆元素
+    *(heap->head + heap->length) = new_elem;
+    ++heap->length;
+
+    for (i = heap->length/2 - 1; i >= 0; --i)
+    {
+        adjustMaxBinaryHeap(heap, i, heap->length - 1);
+    }
+
+    return EXECUTE_SUCCESS;
+}
+
+
+void printMaxBinaryHeap(const Heap heap)
+{
+    int i;
+
+    for (i = 0; i < heap.length; ++i)
+    {
+        printf("%d ", *(heap.head + i));
+    }
+    printf("\n");
 }
