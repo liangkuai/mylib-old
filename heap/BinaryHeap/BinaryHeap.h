@@ -46,6 +46,10 @@ void adjustMaxBinaryHeap(Heap *heap, unsigned int start, unsigned int end);
 
 void adjustMinBinaryHeap(Heap *heap, unsigned int start, unsigned int end);
 
+void adjustUpMaxBinaryHeap(Heap *heap, unsigned int start);
+
+void adjustUpMinBinaryHeap(Heap *heap, unsigned int start);
+
 
 /**
  * 创建堆

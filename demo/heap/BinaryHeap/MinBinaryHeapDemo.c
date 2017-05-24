@@ -24,7 +24,7 @@ int main()
     printf("\nmin: %d\n", min);
     printMinBinaryHeap(heap);
 
-    addElemToMinBinaryHeap(&heap, 65);
+    addElemToMinBinaryHeap(&heap, 15);
     printMinBinaryHeap(heap);
 
 

@@ -6,10 +6,10 @@
 void adjustMinBinaryHeap(Heap *heap, unsigned int start, unsigned int end)
 {
     unsigned int current       = start;
-    unsigned int current_child = start * 2 + 1;
+    unsigned int current_child = current * 2 + 1;
     ElemType     start_val     = *(heap->head + current);
 
-    for (; current_child <= end;)
+    while (current_child <= end)
     {
         if (current_child < end
             && *(heap->head + current_child) > *(heap->head + current_child + 1))
@@ -20,10 +20,31 @@ void adjustMinBinaryHeap(Heap *heap, unsigned int start, unsigned int end)
             *(heap->head + current) = *(heap->head + current_child);
 
         current = current_child;
-        current_child = current_child * 2 + 1;
+        current_child = current * 2 + 1;
     }
     *(heap->head + current) = start_val;
 }
+
+void adjustUpMinBinaryHeap(Heap *heap, unsigned int start)
+{
+    unsigned int current        = start;
+    unsigned int current_parent = (current - 1) / 2;
+    ElemType     start_val      = *(heap->head + current);
+
+    while (current > 0)
+    {
+        if (start_val < *(heap->head + current_parent))
+        {
+            *(heap->head + current) = *(heap->head + current_parent);
+            current = current_parent;
+            current_parent = (current - 1) / 2;
+        }
+        else
+            break;
+    }
+    *(heap->head + current) = start_val;
+}
+
 
 int createMinBinaryHeap(Heap *heap, ElemType *elem_list)
 {
@@ -120,11 +141,14 @@ int addElemToMinBinaryHeap(Heap *heap, ElemType new_elem)
     // 添加堆元素
     *(heap->head + heap->length) = new_elem;
     ++heap->length;
+    
+    adjustUpMinBinaryHeap(heap, heap->length - 1);
 
+    /*
     for (i = heap->length/2 - 1; i >= 0; --i)
     {
         adjustMinBinaryHeap(heap, i, heap->length - 1);
-    }
+    }*/
 
     return EXECUTE_SUCCESS;
 }

@@ -6,21 +6,42 @@
 void adjustMaxBinaryHeap(Heap *heap, unsigned int start, unsigned int end)
 {
     unsigned int current       = start;
-    unsigned int current_child = start * 2 + 1;
+    unsigned int current_child = current * 2 + 1;
     ElemType     start_val     = *(heap->head + current);
 
-    for (; current_child <= end;)
+    while (current_child <= end)
     {
         if (current_child < end
             && *(heap->head + current_child) < *(heap->head + current_child + 1))
             ++current_child;
         if (start_val > *(heap->head + current_child))
             break;
-        else
-            *(heap->head + current) = *(heap->head + current_child);
+
+        *(heap->head + current) = *(heap->head + current_child);
 
         current = current_child;
         current_child = current_child * 2 + 1;
+    }
+    *(heap->head + current) = start_val;
+}
+
+
+void adjustUpMaxBinaryHeap(Heap *heap, unsigned int start)
+{
+    unsigned int current        = start;
+    unsigned int current_parent = (current - 1) / 2;
+    ElemType     start_val      = *(heap->head + current);
+
+    while (current > 0)
+    {
+        if (start_val > *(heap->head + current_parent))
+        {
+            *(heap->head + current) = *(heap->head + current_parent);
+            current = current_parent;
+            current_parent = (current - 1) / 2;
+        }
+        else
+            break;
     }
     *(heap->head + current) = start_val;
 }
@@ -39,7 +60,7 @@ int createMaxBinaryHeap(Heap *heap, ElemType *elem_list)
         *(heap->head + i) = *(elem_list + i);
     }
 
-    // 树的最后一个非叶节点 length/2-1
+    // 树的最后一个非叶节点, 节点数/2 = heap->length/2
     for (i = heap->length / 2 - 1; i >= 0; --i)
     {
         adjustMaxBinaryHeap(heap, i, heap->length -1);
@@ -77,7 +98,7 @@ int removeTopOfMaxBinaryHeap(Heap *heap, ElemType *max_elem)
     *(heap->head + heap->length - 1) = 0;
     --heap->length;
 
-    for (i = heap->length/2 - 1; i <= 0; --i)
+    for (i = heap->length/2 - 1; i >= 0; --i)
     {
         adjustMaxBinaryHeap(heap, i, heap->length-1);
     }
@@ -112,7 +133,7 @@ int addElemToMaxBinaryHeap(Heap *heap, ElemType new_elem)
 {
     int i;
 
-    // 堆满
+    // 堆
     if (heap->length >= heap->size)
     {
         // 扩展堆大小
@@ -126,10 +147,13 @@ int addElemToMaxBinaryHeap(Heap *heap, ElemType new_elem)
     *(heap->head + heap->length) = new_elem;
     ++heap->length;
 
+    adjustUpMaxBinaryHeap(heap, heap->length - 1);
+
+    /*
     for (i = heap->length/2 - 1; i >= 0; --i)
     {
         adjustMaxBinaryHeap(heap, i, heap->length - 1);
-    }
+    }*/
 
     return EXECUTE_SUCCESS;
 }
